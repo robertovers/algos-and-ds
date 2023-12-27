@@ -54,6 +54,38 @@ class Heap(Generic[T]):
         self.sink(0, len(self))
         return min
 
+    def sink(self, idx: int, end: int) -> None:
+        """
+        Swaps the element at idx with its lowest child until the heap
+        invariant is restored. We choose the lower child because the
+        greater child would break the heap invariant after swapping.
+
+        Time: O(logn)
+
+        Args:
+            end: An index for when to swap until. Used by Heapsort.
+        """
+        next = self.min_child(idx, end)
+        while (next and next < end
+               and not self.invariant(self.heap[idx], self.heap[next])):
+            # swap the current element with the lower child
+            self.heap[idx], self.heap[next] = self.heap[next], self.heap[idx]
+            idx = next
+            next = self.min_child(idx)
+
+    def rise(self, idx: int) -> None:
+        """
+        Swaps the element at idx with its parent until the heap invariant
+        is restored.
+
+        Time: O(logn)
+        """
+        par = (idx - 1) // 2
+        while idx > 0 and not self.invariant(self.heap[par], self.heap[idx]):
+            # swap the current element with its parent
+            self.heap[idx], self.heap[par] = self.heap[par], self.heap[idx]
+            par, idx = (par - 1) // 2, par
+
     def min_child(self, v: int, end: int = None) -> T:
         left = 2 * v + 1
         right = 2 * v + 2
@@ -64,29 +96,3 @@ class Heap(Generic[T]):
         elif self.invariant(self.heap[left], self.heap[right]):
             return left
         return right
-
-    def sink(self, idx: int, end: int) -> None:
-        next = self.min_child(idx, end)
-        while (next and next < end
-               and not self.invariant(self.heap[idx], self.heap[next])):
-            # swap the current element with the lower child
-            self.heap[idx], self.heap[next] = self.heap[next], self.heap[idx]
-            idx = next
-            next = self.min_child(idx)
-
-    def rise(self, idx: int) -> None:
-        par = (idx - 1) // 2
-        while idx > 0 and not self.invariant(self.heap[par], self.heap[idx]):
-            # swap the current element with its parent
-            self.heap[idx], self.heap[par] = self.heap[par], self.heap[idx]
-            par, idx = (par - 1) // 2, par
-
-
-if __name__ == "__main__":
-    heap = Heap([3, 4, 1, 2])
-    for _ in range(len(heap)):
-        print(heap.pop())
-
-    heap = Heap([3, 4, 1, 2], lambda a, b: a > b)
-    for _ in range(len(heap)):
-        print(heap.pop())
