@@ -1,6 +1,7 @@
 import pytest
 import merge_sort
 import quicksort
+import heapsort
 import radix_sort
 
 
@@ -8,6 +9,7 @@ def sorting_algorithms():
     algos = [
         merge_sort.merge_sort,
         quicksort.quicksort,
+        heapsort.heapsort,
         radix_sort.radix_sort_base_64,
         radix_sort.radix_sort_base_256
     ]

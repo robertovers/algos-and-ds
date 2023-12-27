@@ -1,6 +1,6 @@
 test:
-	pytest
+	python -m pytest
 
 test-sorting:
-	pytest sorting/test_sorting_correctness.py
-	python3 sorting/test_sorting_performance.py
+	python -m pytest sorting/test_sorting_correctness.py
+	python -m sorting.test_sorting_performance

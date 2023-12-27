@@ -1,8 +1,9 @@
 import timeit
 import random
-import merge_sort
-import quicksort
-import radix_sort
+from sorting import (merge_sort,
+                     quicksort,
+                     heapsort,
+                     radix_sort)
 
 
 def sorting_algorithms():
@@ -10,8 +11,9 @@ def sorting_algorithms():
         ("Python `sorted`", sorted),
         ("Merge Sort", merge_sort.merge_sort),
         ("Quicksort", quicksort.quicksort),
+        ("Heapsort", heapsort.heapsort),
         ("Radix Sort (base 64)", radix_sort.radix_sort_base_64),
-        ("Radix Sort (base 256)", radix_sort.radix_sort_base_256),
+        ("Radix Sort (base 256)", radix_sort.radix_sort_base_256)
     ]
     return algos
 
@@ -21,7 +23,7 @@ def run(n, k):
     print(f"Array size: {n}")
     print(f"Array items: 1..{k}\n")
 
-    print("Algorithm".ljust(20), "Time (s)")
+    print("Algorithm".ljust(25), "Time (s)")
     for name, f in sorting_algorithms():
         times = []
         for _ in range(5):
@@ -29,7 +31,7 @@ def run(n, k):
             ti = timeit.timeit(lambda: f(arr), number=1)
             times += [round(ti, 10)]
         best = min(times)
-        print(name.ljust(20), best)
+        print(name.ljust(25), best)
 
 
 if __name__ == "__main__":
