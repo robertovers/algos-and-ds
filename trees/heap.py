@@ -7,8 +7,8 @@ T = TypeVar("T")
 class Heap(Generic[T]):
     """
     A basic, generic heap data structure with the following operations:
-        - insert
-        - pop
+        * insert
+        * pop
 
     Args:
         lst: A list to turn into a heap
