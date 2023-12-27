@@ -69,6 +69,7 @@ class Heap(Generic[T]):
         next = self.min_child(idx, end)
         while (next and next < end
                and not self.invariant(self.heap[idx], self.heap[next])):
+            # swap the current element with the lower child
             self.heap[idx], self.heap[next] = self.heap[next], self.heap[idx]
             idx = next
             next = self.min_child(idx)
@@ -76,6 +77,7 @@ class Heap(Generic[T]):
     def rise(self, idx: int) -> None:
         par = (idx - 1) // 2
         while idx > 0 and not self.invariant(self.heap[par], self.heap[idx]):
+            # swap the current element with its parent
             self.heap[idx], self.heap[par] = self.heap[par], self.heap[idx]
             par, idx = (par - 1) // 2, par
 
