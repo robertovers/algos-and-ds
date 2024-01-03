@@ -46,7 +46,7 @@ def dfs_recursive(V: List[str], E: List[List[int]], u: int) -> List[List[int]]:
     Args:
         V: A list of vertex labels.
         E: An adjacency matrix stored as a nested list.
-        start: A vertex label of the node to search from.
+        start: The index of the node to search from.
 
     Returns:
         A nested list of paths explored.

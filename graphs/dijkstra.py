@@ -1,5 +1,5 @@
-import heapq
 from typing import List, Dict
+from trees.heap import Heap
 
 
 def adj(E: List[List[int]], u: str) -> List[int]:
@@ -23,16 +23,23 @@ def dijkstra(V: List[str], E: List[List[int]], start: int) -> Dict:
     """
     Dijkstra's algorithm implemented with a priority queue.
 
+    Time:
+        O(E*insert + V*pop)
+        -> O(ElogV + VlogV) using basic binary heap
+        -> O(E + VlogV) with a fibonacci heap
+
     Args:
         V: A list of vertex labels.
         E: An adjacency matrix stored as a nested list.
-        start: A vertex label of the node to search from.
+        start: The index of the node to search from.
     """
-    Q = [(0, start)]  # (cost, vertex)
-    fin = {}
+    Q = Heap([(0, start)])  # (cost, vertex)
+    fin = {}  # vertex -> min cost
 
+    # iterations equal to no. of possible fin states
+    # V iterations for the standard algorithm
     while Q:
-        uc, u = heapq.heappop(Q)
+        uc, u = Q.pop()
 
         if V[u] in fin:
             continue
@@ -41,7 +48,7 @@ def dijkstra(V: List[str], E: List[List[int]], start: int) -> Dict:
 
         for v in adj(E, u):
             du = uc + E[u][v]
-            heapq.heappush(Q, (du, v))
+            Q.insert((du, v))
 
     return fin
 
