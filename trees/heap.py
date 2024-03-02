@@ -30,7 +30,7 @@ class Heap(Generic[T]):
         """
         Adds an element to the heap.
 
-        Time: O(logN)
+        Time: O(logn)
         """
         # add the item to the back of the heap
         self.heap.append(item)
@@ -41,7 +41,7 @@ class Heap(Generic[T]):
         """
         Pops the minimum element off of the heap.
 
-        Time: O(logN)
+        Time: O(logn)
         """
         min = self.heap[0]
         if len(self.heap) == 1:
