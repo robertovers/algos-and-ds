@@ -57,17 +57,3 @@ class BinarySearchTree:
         if not self.head:
             return False
         return self.head.search(key)
-
-
-if __name__ == "__main__":
-
-    bst = BinarySearchTree()
-    bst.insert(2)
-    bst.insert(6)
-    bst.insert(8)
-    bst.insert(9)
-    bst.insert(5)
-
-    print(bst.search(2))
-    print(bst.search(5))
-    print(bst.search(3))

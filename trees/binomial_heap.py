@@ -137,12 +137,3 @@ class BinomialHeap():
     def delete(self, a: Node) -> None:
         self.decreaseKey(a, -math.inf)
         self.extractMin()
-
-
-if __name__ == '__main__':
-
-    bh = BinomialHeap()
-
-    bh.insert(5)
-    bh.insert(6)
-    bh.insert(4)
