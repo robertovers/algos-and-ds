@@ -1,21 +1,23 @@
 from typing import List
 
 
-class BSTNode():
+class BSTNode:
 
     def __init__(self, key: int) -> None:
         self.key: int = key
-        self.left_child: BSTNode = None
-        self.right_child: BSTNode = None
+        self.left_child: BSTNode | None = None
+        self.right_child: BSTNode | None = None
 
     def insert(self, key: int) -> None:
         if key < self.key:
             if self.left_child:
                 self.left_child.insert(key)
+                return
             self.left_child = BSTNode(key)
         else:
             if self.right_child:
                 self.right_child.insert(key)
+                return
             self.right_child = BSTNode(key)
 
     def search(self, key: int) -> bool:
@@ -34,7 +36,7 @@ class BSTNode():
 class BinarySearchTree:
     
     def __init__(self) -> None:
-        self.head: BSTNode = None
+        self.head: BSTNode | None = None
     
     def insert(self, key: int) -> None:
         """

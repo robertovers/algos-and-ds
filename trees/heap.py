@@ -1,4 +1,4 @@
-from typing import List, TypeVar, Generic
+from typing import List, TypeVar, Generic, Callable
 
 
 T = TypeVar("T")
@@ -6,7 +6,7 @@ T = TypeVar("T")
 
 class Heap(Generic[T]):
     """
-    A basic, generic heap data structure with the following operations:
+    A basic, generic binary heap data structure with the following operations:
         * insert
         * pop
 
@@ -17,14 +17,27 @@ class Heap(Generic[T]):
     """
 
     def __init__(self, lst: List[T] = [],
-                 invariant: callable = lambda a, b: a < b):
-        self.heap = []
+                 invariant: Callable = lambda a, b: a < b):
+        self.heap: List[T] = []
         self.invariant = invariant
         for x in lst:
             self.insert(x)
 
     def __len__(self) -> int:
         return len(self.heap)
+
+    def assert_correctness(self) -> None:
+        """
+        Asserts the correctness of the heap invariant.
+        """
+        n = len(self.heap)
+        for i in range(n):
+            left = 2 * i + 1
+            right = 2 * i + 2
+            if left in range(0, n):
+                assert self.invariant(self.heap[i], self.heap[left])
+            if right in range(0, n):
+                assert not self.invariant(self.heap[i], self.heap[right])
 
     def insert(self, item: T) -> None:
         """
@@ -65,13 +78,13 @@ class Heap(Generic[T]):
         Args:
             end: An index for when to swap until. Used by Heapsort.
         """
-        next = self.min_child(idx, end)
+        next = self.min_child_idx(idx, end)
         while (next and next < end
                and not self.invariant(self.heap[idx], self.heap[next])):
             # swap the current element with the lower child
             self.heap[idx], self.heap[next] = self.heap[next], self.heap[idx]
             idx = next
-            next = self.min_child(idx)
+            next = self.min_child_idx(idx)
 
     def rise(self, idx: int) -> None:
         """
@@ -85,8 +98,29 @@ class Heap(Generic[T]):
             # swap the current element with its parent
             self.heap[idx], self.heap[par] = self.heap[par], self.heap[idx]
             par, idx = (par - 1) // 2, par
+    
+    def update_key(self, idx: int, key: T) -> None:
+        """
+        Updates the value of the heap at index idx with the value key.
 
-    def min_child(self, v: int, end: int = None) -> T:
+        Time: O(logn)
+        """
+        if not self.invariant(key, self.heap[idx]):
+            self.heap[idx] = key
+            self.sink(idx, len(self))
+        else:
+            self.heap[idx] = key
+            self.rise(idx)
+
+    def min_child_idx(self, v: int, end: int | None = None) -> int | None:
+        """
+        Gets the index of the smallest child of a given node.
+
+        Time: O(1)
+
+        Args:
+            end: A max index to consider. Used by Heapsort.
+        """
         left = 2 * v + 1
         right = 2 * v + 2
         if left > len(self.heap) - 1:
